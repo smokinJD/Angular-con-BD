@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="miAplicacion">
+    <head>
+        <title>Ejemplo Angular</title>
+        <meta charset="UTF-8">
+        <link href="css/CSSARIKETAALUMNOS.css" rel="stylesheet" type="text/css"/>
+        <script src="js/angular.min.js" type="text/javascript"></script>
+        <script src="js/Angular.js" type="text/javascript"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng-controller="mainController">
+            <h1>Ikasleen Zerrenda</h1>
+            
+            <div id="zonalista">
+                <ul id="listaalumnos">
+                    <li ng-repeat="item in lista | filter:TEXTObusqueda"> 
+                        <span class ="peque"> {{item.id}}</span>
+                        <span class ="medio"> {{item.nombre}}</span>
+                        <span class ="medio"> {{item.apellido1}}</span>
+                        <span class ="medio"> {{item.apellido2}}</span>
+                        <span class ="grande"> {{item.ciclo}}</span>
+                        <span class ="medio"> {{item.curso}}</span>
+                        <span class ="peque"> <input type="checkbox" ng-model="item.seleccionado"></span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="acciones">
+                <div id="izda" ng-show="verAgregaralumno==='true'">
+                    <form id="formagregar" ng-submit="agregar()">
+                        <p><span>ID </span> <input type="text" ng-model="misdatos.id" diasbled/></p>
+                        <p><span>NOMBRE </span> <input type="text" ng-model="misdatos.nombre"/></p>
+                        <p><span>APELLIDO1 </span> <input type="text" ng-model="misdatos.apellido1"/></p>
+                        <p><span>APELLIDO2 </span> <input type="text" ng-model="misdatos.apellido2"/></p>
+                        <p><span>CICLO </span> <input type="text" ng-model="misdatos.ciclo"/></p>
+                        <p><span>CURSO </span> 
+                            <select name="curso" ng-model="misdatos.curso" ng-disabled="misdatos.ciclo===''">
+                                <option value="primero">primero</option>
+                                <option value="segundo">segundo</option>
+                            </select>
+                        </p>
+                        <input type="submit" value="Agregar Alumno"/>
+                        <input type="reset" value="Cancelar" ng-click="cancelar()"/>
+                    </form>
+                </div>
+            
+            
+                <div id="dcha" ng-show="verMenu==='true'">
+                    <input type="button" value="Alumnonuevo" ng-click="Iniciaragregar()"/>
+                    <input type="button" value="Eliminar Lista" ng-click="Eliminarlista()"/>
+                    <input type="button" value="Eliminar Alumno" ng-click="Eliminaralumno()"/>
+                    <input type="button" value="Buscar" ng-click="Buscar()"/>
+                    <br>    <br>
+                    <form id="formulariobuscar" ng-show="verFormBusqueda" ng-submit="finbuscar()">
+                        Escriba dato a buscar: <input type="text" ng-model="TEXTObusqueda"/>
+                        <input type="submit" value="Finalizar Busqueda"/>
+                    </form>
+                    <p> </p>
+                
+                </div>
+            </div>        
+        </div>
+    </body>
+</html>
