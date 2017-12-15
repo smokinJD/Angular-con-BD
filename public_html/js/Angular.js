@@ -31,29 +31,33 @@ miAplicacion.controller('mainController', function($scope, $http){
         
         $scope.agregar = function() {
           alert ($scope.misdatos.nombre);
-          $scope.lista.push({id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
-          apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
-          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso});
+          
       
           $http.post("controlador/controladorInsertarAlumno.php", {nombre:$scope.misdatos.nombre,
           apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
-          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso}).success(function(data) {
-                        $scope.param = eval(data);
-                        console.log(data);
-                    })
-                .error(function(data) {
-                        console.log('Error: ' + data);
-                });
+          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso}).then(success, error);
+            
+            function success(){
+                $scope.lista.push({id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
+                apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
+                ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso});
+                
+                
+                $scope.misdatos.id++;
+                $scope.misdatos.nombre='';
+                $scope.misdatos.apellido1='';
+                $scope.misdatos.apellido2='';
+                $scope.misdatos.ciclo='';
+                $scope.misdatos.curso='';
+                $scope.verAgregaralumno = 'false';
+                $scope.verMenu = 'true';
+                
+            }
+            function error(error) {
+                    console.error('Error occurred:', response.status, response.data);
+            };
       
-      
-            $scope.misdatos.id++;
-            $scope.misdatos.nombre='';
-            $scope.misdatos.apellido1='';
-            $scope.misdatos.apellido2='';
-            $scope.misdatos.ciclo='';
-            $scope.misdatos.curso='';
-            $scope.verAgregaralumno = 'false';
-            $scope.verMenu = 'true';
+            
         };
         
         //Modificar
@@ -77,30 +81,30 @@ miAplicacion.controller('mainController', function($scope, $http){
         
         $scope.modificar = function() {
           alert ($scope.misdatos.nombre);
-          $scope.lista.push({id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
-          apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
-          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso});
+          $scope.cambiar();
       
           $http.post("controlador/controladorModificarAlumno.php", {id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
           apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
-          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso}).success(function(data) {
-                        $scope.param = eval(data);
-                        console.log(data);
-                    })
-                .error(function(data) {
-                        console.log('Error: ' + data);
-                });
+          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso}).then(success, error);
+            
+            function success(){
+                $scope.cambiar();
+                
+                $scope.misdatos.id++;
+                $scope.misdatos.nombre='';
+                $scope.misdatos.apellido1='';
+                $scope.misdatos.apellido2='';
+                $scope.misdatos.ciclo='';
+                $scope.misdatos.curso='';
+                $scope.verAgregaralumno = 'false';
+                $scope.verModificaralumno = 'false';
+                $scope.verMenu = 'true';
+                
+            }
+            function error(error) {
+                    console.error('Error occurred:', response.status, response.data);
+            };
       
-      
-            $scope.misdatos.id++;
-            $scope.misdatos.nombre='';
-            $scope.misdatos.apellido1='';
-            $scope.misdatos.apellido2='';
-            $scope.misdatos.ciclo='';
-            $scope.misdatos.curso='';
-            $scope.verAgregaralumno = 'false';
-            $scope.verModificaralumno = 'false';
-            $scope.verMenu = 'true';
         };
         
         $scope.cancelar = function () {
@@ -133,12 +137,12 @@ miAplicacion.controller('mainController', function($scope, $http){
                 var milista = $scope.lista;
                 $scope.lista=[];
                 angular.forEach(milista, function(item){
-                    if(item.id != id){
+                    if(item.id !== id){
                         $scope.lista.push(item);
                     }
                 });
-                $scope.ultimoId = $scope.lista[parseInt($scope.lista.length)-1].id;
-                $scope.misdatos.id = parseInt($scope.ultimoId)+1;
+                //$scope.ultimoId = $scope.lista[parseInt($scope.lista.length)-1].id;
+                //$scope.misdatos.id = parseInt($scope.ultimoId)+1;
                 
               }
               function errorCallback(error){
@@ -152,6 +156,10 @@ miAplicacion.controller('mainController', function($scope, $http){
             for(i=0;i<$scope.lista.length;i++){
                 if($scope.lista[i].id===$scope.misdatos.id){
                     $scope.lista[i].nombre=$scope.misdatos.nombre;
+                    $scope.lista[i].apellido1=$scope.misdatos.apellido1;
+                    $scope.lista[i].apellido2=$scope.misdatos.apellido2;
+                    $scope.lista[i].ciclo=$scope.misdatos.ciclo;
+                    $scope.lista[i].curso=$scope.misdatos.curso;
                 }
             }
         };
