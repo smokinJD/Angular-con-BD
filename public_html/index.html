@@ -21,7 +21,8 @@
                         <span class ="medio"> {{item.apellido2}}</span>
                         <span class ="grande"> {{item.ciclo}}</span>
                         <span class ="medio"> {{item.curso}}</span>
-                        <span class ="peque"> <input type="checkbox" ng-model="item.seleccionado"></span>
+                        <span class ="peque"> <button ng-click="Eliminaralumno(item.id)">Eliminar</button></span>
+                        <span class ="peque"> <button ng-click="IniciarModificar(item.id)">Modificar</button></span>
                     </li>
                 </ul>
             </div>
@@ -41,6 +42,24 @@
                             </select>
                         </p>
                         <input type="submit" value="Agregar Alumno"/>
+                        <input type="reset" value="Cancelar" ng-click="cancelar()"/>
+                    </form>
+                </div>
+                
+                <div id="izda" ng-show="verModificaralumno==='true'">
+                    <form id="formagregar" ng-submit="modificar()">
+                        <p><span>ID </span> <input type="text" ng-model="misdatos.id" diasbled/></p>
+                        <p><span>NOMBRE </span> <input type="text" ng-model="misdatos.nombre"/></p>
+                        <p><span>APELLIDO1 </span> <input type="text" ng-model="misdatos.apellido1"/></p>
+                        <p><span>APELLIDO2 </span> <input type="text" ng-model="misdatos.apellido2"/></p>
+                        <p><span>CICLO </span> <input type="text" ng-model="misdatos.ciclo"/></p>
+                        <p><span>CURSO </span> 
+                            <select name="curso" ng-model="misdatos.curso" ng-disabled="misdatos.ciclo===''">
+                                <option value="primero">primero</option>
+                                <option value="segundo">segundo</option>
+                            </select>
+                        </p>
+                        <input type="submit" value="Modificar Alumno"/>
                         <input type="reset" value="Cancelar" ng-click="cancelar()"/>
                     </form>
                 </div>

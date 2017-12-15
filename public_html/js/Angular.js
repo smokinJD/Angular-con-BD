@@ -19,6 +19,7 @@ miAplicacion.controller('mainController', function($scope, $http){
         $scope.misdatos.id = parseInt($scope.ultimoId)+1;
         
         $scope.verAgregaralumno = 'false';
+        $scope.verModificaralumno = 'false';
         $scope.verMenu = 'true';
         
         ///////////////////////////////
@@ -55,6 +56,53 @@ miAplicacion.controller('mainController', function($scope, $http){
             $scope.verMenu = 'true';
         };
         
+        //Modificar
+        
+        $scope.IniciarModificar = function(id){
+            $scope.verAgregaralumno = 'false';
+            $scope.verModificaralumno = 'true';
+            $scope.verMenu = 'false';
+            
+            $http({url:"controlador/controladorAlumnoID.php", method: "GET", params: {value:id}}).then(function(response){
+                //alert(JSON.stringify(response.data));
+                
+                $scope.misdatos.id = id;
+                $scope.misdatos.nombre= response.data.nombre;
+                $scope.misdatos.apellido1= response.data.apellido1;
+                $scope.misdatos.apellido2= response.data.apellido2;
+                $scope.misdatos.ciclo= response.data.ciclo;
+                $scope.misdatos.curso= response.data.curso;
+            });
+        };
+        
+        $scope.modificar = function() {
+          alert ($scope.misdatos.nombre);
+          $scope.lista.push({id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
+          apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
+          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso});
+      
+          $http.post("controlador/controladorModificarAlumno.php", {id:$scope.misdatos.id,nombre:$scope.misdatos.nombre,
+          apellido1:$scope.misdatos.apellido1,apellido2:$scope.misdatos.apellido2,
+          ciclo:$scope.misdatos.ciclo,curso:$scope.misdatos.curso}).success(function(data) {
+                        $scope.param = eval(data);
+                        console.log(data);
+                    })
+                .error(function(data) {
+                        console.log('Error: ' + data);
+                });
+      
+      
+            $scope.misdatos.id++;
+            $scope.misdatos.nombre='';
+            $scope.misdatos.apellido1='';
+            $scope.misdatos.apellido2='';
+            $scope.misdatos.ciclo='';
+            $scope.misdatos.curso='';
+            $scope.verAgregaralumno = 'false';
+            $scope.verModificaralumno = 'false';
+            $scope.verMenu = 'true';
+        };
+        
         $scope.cancelar = function () {
             alert($scope.misdatos.id);
             $scope.misdatos.id=$scope.misdatos.id;
@@ -71,16 +119,33 @@ miAplicacion.controller('mainController', function($scope, $http){
             $scope.lista=[];
         };
         
-        $scope.Eliminaralumno=function(){
-            var milista = $scope.lista;
-            $scope.lista=[];
-            angular.forEach(milista, function(item){
-                if(!item.seleccionado){
-                    $scope.lista.push(item);
-                }
-            });
-            $scope.ultimoId = $scope.lista[parseInt($scope.lista.length)-1].id;
-            $scope.misdatos.id = parseInt($scope.ultimoId)+1;
+        $scope.Eliminaralumno=function(id){
+            
+            if (confirm('¿Seguro que quieres borrar el alumno con id: ' + id + '?')) {
+           $http({url: "controlador/controladorEliminarAlumno.php",
+                method: "GET",
+                params: {value:id}
+            }).then(successCallback, errorCallback);
+
+              function successCallback(response){
+                alert("Borrado " + id);
+                
+                var milista = $scope.lista;
+                $scope.lista=[];
+                angular.forEach(milista, function(item){
+                    if(item.id != id){
+                        $scope.lista.push(item);
+                    }
+                });
+                $scope.ultimoId = $scope.lista[parseInt($scope.lista.length)-1].id;
+                $scope.misdatos.id = parseInt($scope.ultimoId)+1;
+                
+              }
+              function errorCallback(error){
+                console.error('Error occurred:', response.status, response.data);
+              }
+            
+            }
         };
         
         $scope.cambiar = function(){

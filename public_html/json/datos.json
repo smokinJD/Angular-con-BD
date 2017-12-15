@@ -1,7 +1,0 @@
-[
-    {"id":"1", "nombre":"ANA", "apellido1":"ANSOLA", "apellido2":"BARTET", "ciclo":"APLICACIONES WEB", "curso":"primero","seleccionado":false},
-    {"id":"2", "nombre":"SARA", "apellido1":"ANSUATEGI", "apellido2":"ETXABE", "ciclo":"APLICACIONES WEB", "curso":"segundo","seleccionado":true},
-    {"id":"4", "nombre":"ENEKO", "apellido1":"ARRIETA", "apellido2":"GABIOLA", "ciclo":"APLICACIONES WEB", "curso":"primero","seleccionado":false},
-    {"id":"5", "nombre":"MIREN", "apellido1":"ANSOLA", "apellido2":"BARTET", "ciclo":"CUIDADOS AUXILIARES", "curso":"primero","seleccionado":false},
-    {"id":"6", "nombre":"ASIER", "apellido1":"ETXEANDIA", "apellido2":"BARTET", "ciclo":"SOLDADURA", "curso":"segundo","seleccionado":false}
-]
